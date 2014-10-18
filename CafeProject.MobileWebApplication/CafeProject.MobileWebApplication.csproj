@@ -147,6 +147,9 @@
       <DependentUpon>Main.mdf</DependentUpon>
     </Content>
     <Content Include="App_Data\Main.mdf" />
+    <Content Include="App_Data\Main_log.ldf">
+      <DependentUpon>Main.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\Images\Avatars\japengo.jpeg" />
     <Content Include="Content\Images\Avatars\pascucci.jpg" />
     <Content Include="Content\Images\Foods\cakes.jpg" />

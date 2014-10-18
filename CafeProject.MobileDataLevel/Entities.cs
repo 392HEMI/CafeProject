@@ -279,8 +279,8 @@ namespace CafeProject.MobileDataLevel.Entities
         [Column("LikeService")]
         public int LikeService { get; set; }
 
-        [Column("LikeInterior")]
-        public int LikeInterior { get; set; }
+        [Column("LikePrice")]
+        public int LikePrice { get; set; }
 
         public virtual User User { get; set; }
         public virtual GeneralObject Object { get; set; }

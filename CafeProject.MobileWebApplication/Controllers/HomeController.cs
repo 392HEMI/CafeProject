@@ -181,6 +181,13 @@ namespace CafeProject.MobileWebApplication.Controllers
             return obj;
         }
 
-
+        [AjaxOnly]
+        [HttpGet]
+        public ActionResult GetStatistics(int? id)
+        {
+            if (!id.HasValue)
+                return HttpNotFound();
+            return null;
+        }
     }
 }

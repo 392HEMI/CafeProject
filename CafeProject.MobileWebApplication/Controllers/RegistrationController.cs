@@ -30,18 +30,6 @@ namespace CafeProject.MobileWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registration(CafeProject.MobileWebApplication.Models.User user)
         {
-            if (user.Surname.Length < 2 && user.Surname.Length > 255)
-            {
-                ModelState.AddModelError("Surname", "Длина строки должна быть от 2 до 255 символов");
-            }
-            if (user.Name.Length < 2 && user.Name.Length > 255)
-            {
-                ModelState.AddModelError("Name", "Длина строки должна быть от 2 до 255 символов");
-            }
-            if (user.Login.Length < 5 && user.Login.Length > 100)
-            {
-                ModelState.AddModelError("Login", "Длина строки должна быть от 5 до 100 символов");
-            }
             if (ModelState.IsValid)
             {
                 byte b = 0;
@@ -95,7 +83,8 @@ namespace CafeProject.MobileWebApplication.Controllers
                 smpt.Send(mess);
                 return RedirectToAction("Confirm", new { Email = user.Email });
             }
-            return View(user);
+            else
+                return View(user);
         }
 
         //Хэш пароля

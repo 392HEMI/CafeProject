@@ -13,7 +13,6 @@
 { 
     @Html.ValidationSummary(true)
     <div class="box shadow">
-        <form method="post">
             @Html.AntiForgeryToken()
             @*<div class="er_message">
                 @ViewBag.Message
@@ -81,6 +80,5 @@
                     </table>
                 </li>
             </ul>
-        </form>
     </div>
 }
