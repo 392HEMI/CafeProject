@@ -39,7 +39,7 @@ namespace CafeProject.MobileWebApplication.Controllers
             var obj = ShowMenuList("Show", id, i);
             return View("~/Views/Home/Menu.cshtml", obj);
         }
-
+        
         [HttpPost]
         public ActionResult Menu(string command, int? objID, int? ftID)
         {
@@ -113,6 +113,19 @@ namespace CafeProject.MobileWebApplication.Controllers
 
             if (model == null)
                 return HttpNotFound();
+
+            var stat = context
+                .Objects
+                .Where(obj => obj.ID == id.Value && obj.IsWork && !obj.Deleted)
+                .Select(obj => new 
+                {
+                    LikeCooking = obj.Statistics.Average(s => s.LikeCooking),
+                    LikeInterior = obj.Statistics.Average(s => s.LikeInterior),
+                    LikeService = obj.Statistics.Average(s => s.LikeService),
+                    LikePrice = obj.Statistics.Average(s => s.LikePrice)
+                }).SingleOrDefault();
+
+            model.Statistics = new double[4] { stat.LikeCooking, stat.LikeInterior, stat.LikeService, stat.LikePrice };
 
             return View("~/Views/Home/Details.cshtml", model);
         }

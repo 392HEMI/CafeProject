@@ -18,7 +18,17 @@
         });
     </script>
 }
-            <div class="message shadow">
+@helper ProgressBar(string name, double position)
+{
+    int rightPosition = Convert.ToInt32(100.0 - position * 10);
+    <div>@name</div>
+    <div class="progress">
+        <div class="count">@position.ToString("#.0")</div>
+        <div class="right" style="width: @(rightPosition)%;"></div>
+        <div class="clear"></div>
+    </div>
+}
+        <div class="message shadow">
             </div>
             <div class="box shadow">
                 <ul id="list" class="list">
@@ -53,11 +63,204 @@
                             }
                         </div>
                     </li>
-                    <li>
-                        <a id="comments" class="button green">Отзывы</a>
+                    <li class="page" id="comments">
+                        <a class="button green">Отзывы</a>
                     </li>
-                    <li>
+                    @*<li class="page" id="statistics">
                         <a class="button blue">Статистика</a>
+                    </li>*@
+                    @*<li class="page" id="comments">
+                        <div>
+                            <div class="title">
+                                <span>Отзывы</span>
+                            </div>
+                            <a class="button green">Отзывы</a>
+                        </div>
+                    </li>*@
+                    <li class="page" id="statistics">
+                        <div> @*Лишний блок*@
+                            <div class="title">
+                                <span>Статистика</span>
+                            </div>
+                            @ProgressBar("Еда", Model.Statistics[0])
+                            @ProgressBar("Интерьер", Model.Statistics[1])
+                            @ProgressBar("Обслуживание", Model.Statistics[2])
+                            @ProgressBar("Цена", Model.Statistics[3])
+                            <div class="vote">
+                                <a class="button blue">Проголосовать</a>
+                            </div>
+                        </div>
                     </li>
+                    @*<li class="page" id="statistics">
+                        <div>
+                            <div class="title">
+                                <span>Статистика</span>
+                            </div>
+                            <div>
+                                <div>
+                                    <span>Еда</span>
+                                </div>
+                                <div class="metr">
+                                    <table class="metr">
+                                        <tr>
+                                            <td>
+                                                <input class="fill" type="button" value="1" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="2" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="3" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="4" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="5" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="6" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="7" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="8" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="9" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="10" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <span>Интерьер</span>
+                                </div>
+                                <div class="metr">
+                                    <table class="metr">
+                                        <tr>
+                                            <td>
+                                                <input class="fill" type="button" value="1" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="2" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="3" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="4" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="5" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="6" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="7" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="8" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="9" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="10" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <span>Обслуживание</span>
+                                </div>
+                                <div class="metr">
+                                    <table class="metr">
+                                        <tr>
+                                            <td>
+                                                <input class="fill" type="button" value="1" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="2" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="3" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="4" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="5" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="6" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="7" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="8" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="9" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="10" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <span>Цена</span>
+                                </div>
+                                <div class="metr">
+                                    <table class="metr">
+                                        <tr>
+                                            <td>
+                                                <input class="fill" type="button" value="1" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="2" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="3" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="4" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="5" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="6" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="7" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="8" />
+                                            </td>
+                                            <td>
+                                                <input class="fill" type="button" value="9" />
+                                            </td>
+                                            <td>
+                                                <input type="button" value="10" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </li>*@
                 </ul>
             </div>

@@ -17,3 +17,70 @@ ul#list.list > li > div.options > div.option > span {
     border-bottom: 1px dashed #ccc;
     font-size: 15px;
 }
+
+ul#list.list > li#comments {
+    background: #cce0cb;
+}
+
+ul#list.list > li#statistics {
+    background: #d2edff;
+}
+
+ul#list.list > li.page > div > div.title {
+    text-align: center;
+}
+
+ul#list.list > li.page > div > div.vote {
+    margin-top: 7px;
+}
+
+/* Прогресс */
+ul#list.list > li.page > div > div.progress {
+    height: 21px;
+    margin-bottom: 2px;
+    line-height: 21px;
+
+    font-size: 12px;
+    position: relative;
+    background: yellow;
+    border: 3px solid #f0f0f0;
+    text-align: center;
+}
+
+ul#list.list > li.page > div > div.progress > div.right {
+    height: 100%;
+    float: right;
+    background: #f0f0f0;
+}
+
+ul#list.list > li.page > div > div.progress > div.count {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+
+ul#list.list > li.page > div > div > div.metr {
+    margin-bottom: 7px;
+}
+
+/* Шкала */
+table.metr {
+    width: 100%;
+    background: white;
+    border-spacing: 0;
+    border-radius: 3px;
+    border: 3px solid #f0f0f0;
+}
+table.metr > tbody > tr > td {
+    padding: 2px 0;
+    width: 1px;border: 1px solid white;
+}
+table.metr > tbody > tr > td > input[type=button] {
+    width: 100%;
+    padding: 5px 7px;
+    background: #f0f0f0;
+    border: none;
+}
+table.metr > tbody > tr > td > input[type=button].fill {
+    background: yellow;
+}
