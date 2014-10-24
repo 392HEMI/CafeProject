@@ -274,16 +274,16 @@ namespace CafeProject.MobileDataLevel.Entities
         public int ObjectID { get; set; }
 
         [Column("LikeCooking")]
-        public int LikeCooking { get; set; }
+        public byte LikeCooking { get; set; }
 
         [Column("LikeService")]
-        public int LikeService { get; set; }
+        public byte LikeService { get; set; }
 
         [Column("LikeInterior")]
-        public int LikeInterior { get; set; }
+        public byte LikeInterior { get; set; }
 
         [Column("LikePrice")]
-        public int LikePrice { get; set; }
+        public byte LikePrice { get; set; }
 
         public virtual User User { get; set; }
         public virtual GeneralObject Object { get; set; }

@@ -14,6 +14,5 @@ namespace CafeProject.MobileWebApplication.Models
         public ICollection<string> ObjectAddresses { get; set; }
         public string ObjectPhoneNumber { get; set; }
         public ICollection<ObjectOption> ObjectOptions { get; set; }
-        public Double[] Statistics { get; set; }
     }
 }

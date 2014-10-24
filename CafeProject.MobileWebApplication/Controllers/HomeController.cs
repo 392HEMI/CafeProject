@@ -19,6 +19,12 @@ namespace CafeProject.MobileWebApplication.Controllers
 {
     public class HomeController : Controller
     {
+        private ActionResult HttpBadRequest(string message)
+        {
+            Response.StatusCode = 400;
+            return Content(message);
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -39,7 +45,7 @@ namespace CafeProject.MobileWebApplication.Controllers
             var obj = ShowMenuList("Show", id, i);
             return View("~/Views/Home/Menu.cshtml", obj);
         }
-        
+
         [HttpPost]
         public ActionResult Menu(string command, int? objID, int? ftID)
         {
@@ -113,20 +119,6 @@ namespace CafeProject.MobileWebApplication.Controllers
 
             if (model == null)
                 return HttpNotFound();
-
-            var stat = context
-                .Objects
-                .Where(obj => obj.ID == id.Value && obj.IsWork && !obj.Deleted)
-                .Select(obj => new 
-                {
-                    LikeCooking = obj.Statistics.Average(s => s.LikeCooking),
-                    LikeInterior = obj.Statistics.Average(s => s.LikeInterior),
-                    LikeService = obj.Statistics.Average(s => s.LikeService),
-                    LikePrice = obj.Statistics.Average(s => s.LikePrice)
-                }).SingleOrDefault();
-
-            model.Statistics = new double[4] { stat.LikeCooking, stat.LikeInterior, stat.LikeService, stat.LikePrice };
-
             return View("~/Views/Home/Details.cshtml", model);
         }
 
@@ -194,13 +186,99 @@ namespace CafeProject.MobileWebApplication.Controllers
             return obj;
         }
 
+        // -------------------------------------- Statistics ----------------------------------------
         [AjaxOnly]
         [HttpGet]
         public ActionResult GetStatistics(int? id)
         {
             if (!id.HasValue)
                 return HttpNotFound();
-            return null;
+            DatabaseContext context = DatabaseContext.Create();
+
+            var model = context
+                .Objects
+                .Where(obj => obj.ID == id.Value && obj.IsWork && !obj.Deleted)
+                .Select(obj => new StatisticsModel
+                {
+                    Cooking = obj.Statistics.Average(s => s.LikeCooking),
+                    Interior = obj.Statistics.Average(s => s.LikeInterior),
+                    Service = obj.Statistics.Average(s => s.LikeService),
+                    Price = obj.Statistics.Average(s => s.LikePrice)
+                }).SingleOrDefault();
+            if (model == null)
+                return HttpNotFound();
+            return PartialView("~/Views/Home/_Statistics.cshtml", model);
         }
+
+        [AjaxOnly]
+        [HttpGet]
+        //[Authorize(Roles="")]
+        public ActionResult GetStatisticsEditor(int? id)
+        {
+            if (!id.HasValue)
+                return HttpNotFound();
+            DatabaseContext context = DatabaseContext.Create();
+            string username = "shamin_alexander";//User.Identity.Name;
+            var model = context.ObjectStatistics
+                .Where(s => s.User.Login == username)
+                .Where(s => s.ObjectID == id)
+                .Select(s => new StatisticsEditorModel()
+                {
+                    Cooking = s.LikeCooking,
+                    Interior = s.LikeInterior,
+                    Service = s.LikeService,
+                    Price = s.LikePrice
+                }).SingleOrDefault();
+            if (model == null)
+                return HttpNotFound();
+            return PartialView("~/Views/Home/_StatisticsEditor.cshtml", model);
+        }
+
+        [AjaxOnly]
+        [HttpPost]
+        // [Authorize]
+        public ActionResult SetStatistics(byte? key, byte? value)
+        {
+            if (!key.HasValue || !key.HasValue ||
+                (key < 1 || key > 4) ||
+                (value < 1) || (value > 10))
+                return HttpBadRequest("invalid data");
+
+            string username = "shamin_alexander";
+            DatabaseContext context = DatabaseContext.Create();
+            var statistics = context
+                .ObjectStatistics
+                .SingleOrDefault(s => s.User.Login == username);
+            if (statistics == null)
+            {
+                // ????????
+            }
+            switch (key)
+            {
+                case 1:
+                    {
+                        statistics.LikeCooking = value.Value;
+                        break;
+                    }
+                case 2:
+                    {
+                        statistics.LikeInterior = value.Value;
+                        break;
+                    }
+                case 3:
+                    {
+                        statistics.LikeService = value.Value;
+                        break;
+                    }
+                case 4:
+                    {
+                        statistics.LikePrice = value.Value;
+                        break;
+                    }
+            }
+            context.SaveChanges();
+            return Json(new { status = "success" });
+        }
+
     }
 }

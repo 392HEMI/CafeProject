@@ -135,6 +135,8 @@
     <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Models\NearestModel.cs" />
     <Compile Include="Models\ObjectOption.cs" />
+    <Compile Include="Models\StatisticsModel.cs" />
+    <Compile Include="Models\StatisticsEditorModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -220,6 +222,8 @@
     <Content Include="Views\Home\Menu.cshtml" />
     <Content Include="Views\Registration\ConfirmEmail.cshtml" />
     <Content Include="Views\Registration\Confirm.cshtml" />
+    <Content Include="Views\Home\_Statistics.cshtml" />
+    <Content Include="Views\Home\_StatisticsEditor.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

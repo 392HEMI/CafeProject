@@ -1,0 +1,25 @@
+﻿@using CafeProject.MobileWebApplication.Models
+@model StatisticsModel
+@helper ProgressBar(string name, double position)
+{
+    int rightPosition = Convert.ToInt32(100.0 - position * 10);
+    <div>@name</div>
+    <div class="progress">
+        <div class="count">@position.ToString("#.0")</div>
+        <div class="right" style="width: @(rightPosition)%;"></div>
+        <div class="clear"></div>
+    </div>
+}
+<div>
+    @*Лишний блок (не забыть изменить стили)*@
+    <div class="title">
+        <span>Статистика</span>
+    </div>
+    @ProgressBar("Еда", Model.Cooking)
+    @ProgressBar("Интерьер", Model.Interior)
+    @ProgressBar("Обслуживание", Model.Service)
+    @ProgressBar("Цена", Model.Price)
+    <div class="vote">
+        <a id="vote" class="button blue" onclick="return voteClick()">Проголосовать</a>
+    </div>
+</div>
