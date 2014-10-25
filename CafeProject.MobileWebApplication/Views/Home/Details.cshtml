@@ -49,7 +49,7 @@
             if (!value || value < 1 || value > 10)
                 return;
 
-            var url = "@Url.Action("SetStatistics")";
+            var url = "@Url.Action("SetStatistics", new { id = Model.ObjectID })";
             var json = {
                 key: key,
                 value: value

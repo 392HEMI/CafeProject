@@ -5,7 +5,7 @@
     int rightPosition = Convert.ToInt32(100.0 - position * 10);
     <div>@name</div>
     <div class="progress">
-        <div class="count">@position.ToString("#.0")</div>
+        <div class="count">@position.ToString("0.0")</div>
         <div class="right" style="width: @(rightPosition)%;"></div>
         <div class="clear"></div>
     </div>

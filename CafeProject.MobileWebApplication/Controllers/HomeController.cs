@@ -19,6 +19,33 @@ namespace CafeProject.MobileWebApplication.Controllers
 {
     public class HomeController : Controller
     {
+        private void setStatistics(ObjectStatistic statistics, int? key, byte? value)
+        {
+            switch (key)
+            {
+                case 1:
+                    {
+                        statistics.LikeCooking = value.Value;
+                        break;
+                    }
+                case 2:
+                    {
+                        statistics.LikeInterior = value.Value;
+                        break;
+                    }
+                case 3:
+                    {
+                        statistics.LikeService = value.Value;
+                        break;
+                    }
+                case 4:
+                    {
+                        statistics.LikePrice = value.Value;
+                        break;
+                    }
+            }
+        }
+
         private ActionResult HttpBadRequest(string message)
         {
             Response.StatusCode = 400;
@@ -195,16 +222,28 @@ namespace CafeProject.MobileWebApplication.Controllers
                 return HttpNotFound();
             DatabaseContext context = DatabaseContext.Create();
 
-            var model = context
-                .Objects
-                .Where(obj => obj.ID == id.Value && obj.IsWork && !obj.Deleted)
-                .Select(obj => new StatisticsModel
+            StatisticsModel model;
+            if (!context.ObjectStatistics.Any(s => s.ObjectID == id))
+            {
+                model = new StatisticsModel()
                 {
-                    Cooking = obj.Statistics.Average(s => s.LikeCooking),
-                    Interior = obj.Statistics.Average(s => s.LikeInterior),
-                    Service = obj.Statistics.Average(s => s.LikeService),
-                    Price = obj.Statistics.Average(s => s.LikePrice)
-                }).SingleOrDefault();
+                    Cooking = 0,
+                    Interior = 0,
+                    Service = 0,
+                    Price = 0
+                };
+            }
+            else
+                model = context
+                    .Objects
+                    .Where(obj => obj.ID == id.Value && obj.IsWork && !obj.Deleted)
+                    .Select(obj => new StatisticsModel()
+                    {
+                        Cooking = obj.Statistics.Average(s => (double)s.LikeCooking),
+                        Interior = obj.Statistics.Average(s => (double)s.LikeInterior),
+                        Service = obj.Statistics.Average(s => (double)s.LikeService),
+                        Price = obj.Statistics.Average(s => (double)s.LikePrice)
+                    }).SingleOrDefault();
             if (model == null)
                 return HttpNotFound();
             return PartialView("~/Views/Home/_Statistics.cshtml", model);
@@ -219,25 +258,25 @@ namespace CafeProject.MobileWebApplication.Controllers
                 return HttpNotFound();
             DatabaseContext context = DatabaseContext.Create();
             string username = "shamin_alexander";//User.Identity.Name;
-            var model = context.ObjectStatistics
+            StatisticsEditorModel model = context.ObjectStatistics
                 .Where(s => s.User.Login == username)
                 .Where(s => s.ObjectID == id)
                 .Select(s => new StatisticsEditorModel()
                 {
-                    Cooking = s.LikeCooking,
-                    Interior = s.LikeInterior,
-                    Service = s.LikeService,
-                    Price = s.LikePrice
+                    Cooking = s.LikeCooking ?? 0,
+                    Interior = s.LikeInterior ?? 0,
+                    Service = s.LikeService ?? 0,
+                    Price = s.LikePrice ?? 0
                 }).SingleOrDefault();
             if (model == null)
-                return HttpNotFound();
+                model = new StatisticsEditorModel();
             return PartialView("~/Views/Home/_StatisticsEditor.cshtml", model);
         }
 
         [AjaxOnly]
         [HttpPost]
         // [Authorize]
-        public ActionResult SetStatistics(byte? key, byte? value)
+        public ActionResult SetStatistics(int? id, byte? key, byte? value)
         {
             if (!key.HasValue || !key.HasValue ||
                 (key < 1 || key > 4) ||
@@ -248,37 +287,44 @@ namespace CafeProject.MobileWebApplication.Controllers
             DatabaseContext context = DatabaseContext.Create();
             var statistics = context
                 .ObjectStatistics
+                .Where(s => s.ObjectID == id)
                 .SingleOrDefault(s => s.User.Login == username);
+
+
+            // Этот код нужно тестировать
             if (statistics == null)
             {
-                // ????????
+                var user = context
+                    .Users
+                    .Where(u => u.Login == username)
+                    .Select(u => new
+                    {
+                        ID = u.ID
+                    }).SingleOrDefault();
+
+                if (user == null)
+                {
+                    // SignOut();
+                    return Json(new { status = "user not found" });
+                }
+
+                if (!context.Objects.Any(o => o.ID == id))
+                    return Json(new { status = "object not found" });
+
+                statistics = new ObjectStatistic()
+                {
+                    LikeCooking = null,
+                    LikeInterior = null,
+                    LikeService = null,
+                    LikePrice = null,
+                    UserID = user.ID,
+                    ObjectID = id.Value
+                };
+                context.ObjectStatistics.Add(statistics);
             }
-            switch (key)
-            {
-                case 1:
-                    {
-                        statistics.LikeCooking = value.Value;
-                        break;
-                    }
-                case 2:
-                    {
-                        statistics.LikeInterior = value.Value;
-                        break;
-                    }
-                case 3:
-                    {
-                        statistics.LikeService = value.Value;
-                        break;
-                    }
-                case 4:
-                    {
-                        statistics.LikePrice = value.Value;
-                        break;
-                    }
-            }
+            setStatistics(statistics, key, value);
             context.SaveChanges();
             return Json(new { status = "success" });
         }
-
     }
 }
