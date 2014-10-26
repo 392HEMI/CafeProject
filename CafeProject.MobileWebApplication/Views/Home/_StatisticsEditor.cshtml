@@ -3,7 +3,7 @@
 @helper MeterFor(string title, int key, int value)
 {
     <div>
-        <div>
+        <div class="item-title">
             <span>@title</span>
         </div>
         <div class="metr">
@@ -29,12 +29,18 @@
         </div>
     </div>
 }
+<div class="title">
+    <span>Статистика</span>
+</div>
 <div>
-    <div class="title">
-        <span>Статистика</span>
-    </div>
     @MeterFor("Еда", 1, Model.Cooking)
     @MeterFor("Интерьер", 2, Model.Interior)
     @MeterFor("Обслуживание", 3, Model.Service)
     @MeterFor("Цена", 4, Model.Price)
+    <p>
+        <a class="button blue" onclick="return statisticsClick()">Назад к статистике</a>
+    </p>
+    <p class="hide">
+        <a class="button yellow" onclick="return hideStatistics()">Скрыть</a>
+    </p>
 </div>

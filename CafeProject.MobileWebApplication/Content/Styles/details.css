@@ -28,6 +28,7 @@ ul#list.list > li#statistics {
 
 ul#list.list > li.page > div > div.title {
     text-align: center;
+    font-weight: bold;
 }
 
 ul#list.list > li.page > div > div.vote {
@@ -37,7 +38,6 @@ ul#list.list > li.page > div > div.vote {
 /* Прогресс */
 ul#list.list > li.page > div > div.progress {
     height: 21px;
-    margin-bottom: 2px;
     line-height: 21px;
 
     font-size: 12px;
@@ -85,4 +85,12 @@ table.metr > tbody > tr > td > button {
 }
 table.metr > tbody > tr > td > button.fill {
     background: yellow;
+}
+
+div.item-title {
+    margin: 7px 0 0 7px;
+}
+
+p.hide {
+    margin: 3px 0;
 }

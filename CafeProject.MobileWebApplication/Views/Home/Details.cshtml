@@ -12,6 +12,12 @@
 }
 @section Scripts {
     <script type="text/javascript">
+        function hideStatistics() {
+            $("a#statistics").show();
+            $("li#statistics > div").fadeOut().empty();
+            return false;
+        }
+
         function statisticsClick() {
             var requestUrl = "@Url.Action("GetStatistics", new { id = Model.ObjectID })";
             $.ajax({
@@ -19,7 +25,8 @@
                 url: requestUrl,
                 dataType: "html",
                 success: function (data) {
-                    $("li#statistics").html(data);
+                    $("a#statistics").hide();
+                    $("li#statistics > div").html(data).fadeIn();
                 },
                 error: function (xhr, type) {
                     // displayMessage("div#ajax-request-error");
@@ -35,12 +42,13 @@
                 url: requestUrl,
                 dataType: "html",
                 success: function (data) {
-                    $("li#statistics").html(data);
+                    $("li#statistics > div").html(data).fadeIn();
                 },
                 error: function (xhr, type) {
                     // displayMessage("div#ajax-request-error");
                 }
             });
+            return false;
         }
 
         function setRating(obj, key, value) {
@@ -69,7 +77,6 @@
                     }
                 }
             });
-
         }
 
         $(document).ready(function () {
@@ -127,6 +134,7 @@
                     </li>
                     <li id="statistics" class="page">
                         <a id="statistics" class="button blue">Статистика</a>
+                        <div></div>
                     </li>
                     @*<li class="page" id="comments">
                         <div>
