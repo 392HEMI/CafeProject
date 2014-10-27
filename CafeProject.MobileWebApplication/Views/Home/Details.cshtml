@@ -13,8 +13,7 @@
 @section Scripts {
     <script type="text/javascript">
         function hideStatistics() {
-            $("a#statistics").show();
-            $("li#statistics > div").fadeOut().empty();
+            var obj = $("li#statistics > div").fadeOut(300, function () { obj.empty(); $("a#statistics").show(300); });
             return false;
         }
 
@@ -26,7 +25,7 @@
                 dataType: "html",
                 success: function (data) {
                     $("a#statistics").hide();
-                    $("li#statistics > div").html(data).fadeIn();
+                    $("li#statistics > div").html(data).fadeIn(300);
                 },
                 error: function (xhr, type) {
                     // displayMessage("div#ajax-request-error");
@@ -42,7 +41,8 @@
                 url: requestUrl,
                 dataType: "html",
                 success: function (data) {
-                    $("li#statistics > div").html(data).fadeIn();
+                    var obj = $("li#statistics > div");
+                    obj.fadeOut(300, function () { obj.html(data); obj.fadeIn(300); });
                 },
                 error: function (xhr, type) {
                     // displayMessage("div#ajax-request-error");
@@ -72,8 +72,8 @@
                 success: function (jsonObj) {
                     if (jsonObj && jsonObj.status == "success")
                     {
-                        $("table#group-" + key + " button").removeClass("fill");
-                        $(obj).addClass("fill");
+                        $("table#group-" + key + " button").removeClass("fill").prop("disabled", false);
+                        $(obj).prop("disabled", true).addClass("fill");
                     }
                 }
             });

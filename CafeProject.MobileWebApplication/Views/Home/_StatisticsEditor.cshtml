@@ -15,7 +15,7 @@
                             <td>
                                 @if (value == i)
                                 {
-                                    <button class="fill">@i</button>
+                                    <button disabled="disabled" class="fill" onclick="setRating(this, @key, @i)">@i</button>
                                 }
                                 else
                                 {

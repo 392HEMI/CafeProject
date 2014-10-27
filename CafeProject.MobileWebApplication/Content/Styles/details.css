@@ -85,6 +85,7 @@ table.metr > tbody > tr > td > button {
 }
 table.metr > tbody > tr > td > button.fill {
     background: yellow;
+    color: black;
 }
 
 div.item-title {
